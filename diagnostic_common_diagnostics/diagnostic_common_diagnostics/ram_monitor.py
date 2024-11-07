@@ -72,8 +72,10 @@ class RamTask(DiagnosticTask):
 
 def main():
     hostname = socket.gethostname()
+    # Every invalid symbol is replaced by underscore (str.isascii() is not available in Python 3.6)
+    cleaned_hostname = "".join(c if (c.lower() in "abcdefghijklmnopqrstuvwxyz" or c.isdigit()) else '_' for c in hostname)
     rclpy.init()
-    node = rclpy.create_node(f'ram_monitor_{hostname.replace("-", "_")}')
+    node = rclpy.create_node(f'ram_monitor_{cleaned_hostname}')
 
     updater = Updater(node)
     updater.setHardwareID(hostname)

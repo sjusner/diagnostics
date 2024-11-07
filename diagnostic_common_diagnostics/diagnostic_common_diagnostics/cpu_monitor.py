@@ -92,7 +92,9 @@ def main(args=None):
 
     # Create the node
     hostname = socket.gethostname()
-    node = Node(f'cpu_monitor_{hostname.replace("-", "_")}')
+    # Every invalid symbol is replaced by underscore (str.isascii() is not available in Python 3.6)
+    cleaned_hostname = "".join(c if (c.lower() in "abcdefghijklmnopqrstuvwxyz" or c.isdigit()) else '_' for c in hostname)
+    node = Node(f'cpu_monitor_{cleaned_hostname}')
 
     # Declare and get parameters
     node.declare_parameter('warning_percentage', 90)

@@ -74,8 +74,10 @@ class HDMonitor(Node):
     """
 
     def __init__(self):
-        hostname = gethostname().replace('.', '_').replace('-', '_')
-        super().__init__(f'hd_monitor_{hostname}')
+        hostname = gethostname()
+        # Every invalid symbol is replaced by underscore (str.isascii() is not available in Python 3.6)
+        cleaned_hostname = "".join(c if (c.lower() in "abcdefghijklmnopqrstuvwxyz" or c.isdigit()) else '_' for c in hostname)
+        super().__init__(f'hd_monitor_{cleaned_hostname}')
 
         self._path = '~'
         self._free_percent_low = 0.05
