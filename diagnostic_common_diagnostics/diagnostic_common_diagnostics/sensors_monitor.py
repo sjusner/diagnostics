@@ -245,8 +245,10 @@ class SensorsMonitor(object):
 if __name__ == '__main__':
     rclpy.init()
     hostname = socket.gethostname()
-    # Every invalid symbol is replaced by underscore (isalnum() alone also allows invalid symbols depending on the locale)
-    cleaned_hostname = "".join(c if (c.isascii() and c.isalnum()) else '_' for c in hostname)
+    # Every invalid symbol is replaced by underscore.
+    # isalnum() alone also allows invalid symbols depending on the locale
+    cleaned_hostname = "".join(
+        c if (c.isascii() and c.isalnum()) else '_' for c in hostname)
     node = rclpy.create_node('sensors_monitor_%s' % cleaned_hostname)
 
     monitor = SensorsMonitor(node, hostname)
