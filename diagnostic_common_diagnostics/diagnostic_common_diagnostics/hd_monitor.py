@@ -77,7 +77,7 @@ class HDMonitor(Node):
         hostname = gethostname()
         # Every invalid symbol is replaced by underscore.
         # isalnum() alone also allows invalid symbols depending on the locale
-        cleaned_hostname = "".join(
+        cleaned_hostname = ''.join(
             c if (c.isascii() and c.isalnum()) else '_' for c in hostname)
         super().__init__(f'hd_monitor_{cleaned_hostname}')
 
